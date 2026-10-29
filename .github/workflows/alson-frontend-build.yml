@@ -1,43 +1,43 @@
 name: ALSON AI Frontend Build
 
 on:
-workflow_dispatch:
+  workflow_dispatch:
 
 permissions:
-contents: read
+  contents: read
 
 jobs:
-build:
-name: Build frontend on Ubuntu
-runs-on: ubuntu-latest
-timeout-minutes: 30
+  build:
+    name: Build frontend on Ubuntu
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
 
-steps:
-  - name: Checkout repository
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  - name: Set up Node.js
-    uses: actions/setup-node@v4
-    with:
-      node-version: 24
-      cache: npm
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
 
-  - name: Install dependencies
-    run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-  - name: Build workspace packages
-    run: npm run build:packages
+      - name: Build workspace packages
+        run: npm run build:packages
 
-  - name: Build frontend
-    run: npm run build:client
+      - name: Build frontend
+        run: npm run build:client
 
-  - name: Verify frontend output
-    run: test -s client/dist/index.html
+      - name: Verify frontend output
+        run: test -s client/dist/index.html
 
-  - name: Upload frontend artifact
-    uses: actions/upload-artifact@v4
-    with:
-      name: alson-ai-frontend
-      path: client/dist/
-      if-no-files-found: error
-      retention-days: 3
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: alson-ai-frontend
+          path: client/dist/
+          if-no-files-found: error
+          retention-days: 3
